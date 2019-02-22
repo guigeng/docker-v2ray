@@ -24,4 +24,6 @@ RUN set -ex && \
 
 ENV PATH /usr/bin/v2ray:$PATH
 
+VOLUME /var/log/v2ray /etc/v2ray
+
 CMD ["v2ray", "-config=/etc/v2ray/config.json"]
