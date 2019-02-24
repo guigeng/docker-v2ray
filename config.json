@@ -1,24 +1,86 @@
 {
-  "log" : {
-    "access": "/var/log/v2ray/access.log",
-    "error": "/var/log/v2ray/error.log",
-    "loglevel": "warning"
-  },
-  "inbounds": [{
-    "port": 8001,
+    "log": {
+        "access": "/var/log/v2ray/access.log",
+        "error": "/var/log/v2ray/error.log",
+        "loglevel": "warning"
+    },
+    "stats": {},
+    "api": {
+        "services": [
+            "StatsService",
+            "HandlerService",
+            "LoggerService"
+        ],
+        "tag": "api"
+    },
+    "policy": {
+        "levels": {
+            "1": {
+                "connIdle": 300,
+                "downlinkOnly": 5,
+                "handshake": 4,
+                "uplinkOnly": 2,
+                "statsUserDownlink": true,
+                "statsUserUplink": true
+            }
+        },
+        "system": {
+            "statsInboundUplink": true,
+            "statsInboundDownlink": true
+        }
+    },
+  "inbound": {
+    "port": 8080,
     "protocol": "vmess",
     "settings": {
       "clients": [
         {
-          "id": "6a9dbc7f-0806-4399-b136-0ba12a41cf8a",
-          "level": 1,
-          "alterId": 64
+          "id": "f56a8f9a-8002-4cfa-a6cf-7117eca6a5d8",
+          "level":1,
+          "alterId":4,
+          "email":"tt@tt.com"
         }
       ]
+    },
+    "streamSettings": {
+        "network": "quic",
+        "quicSettings": {
+            "security": "none",
+            "key": "walsin",
+            "header": {
+                "type": "wechat-video"
+            }
+        }
     }
-  }],
-  "outbounds": [{
+  },
+  "inboundDetour": [
+    {
+        "listen": "127.0.0.1",
+        "port": 10085,
+        "protocol": "dokodemo-door",
+        "settings": {
+            "address": "127.0.0.1"
+        },
+        "tag": "api"
+    }
+  ],
+
+  "outbound": {
     "protocol": "freedom",
     "settings": {}
-  }]
+  },
+  "routing": {
+        "settings": {
+            "rules": [
+                {
+                    "inboundTag": [
+                        "api"
+                    ],
+                    "outboundTag": "api",
+                    "type": "field"
+                }
+            ]
+        },
+        "strategy": "rules"
+    }
 }
