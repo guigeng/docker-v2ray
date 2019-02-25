@@ -45,7 +45,7 @@
     "streamSettings": {
         "network": "quic",
         "quicSettings": {
-            "security": "none",
+            "security": "aes-128-gcm",
             "key": "walsin",
             "header": {
                 "type": "wechat-video"
